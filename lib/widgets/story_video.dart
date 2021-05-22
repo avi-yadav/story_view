@@ -20,16 +20,17 @@ class VideoLoader {
   VideoLoader(this.url, {this.requestHeaders});
 
   void loadVideo(VoidCallback onComplete) {
-    if(!url.startsWith("http")) {
+    if (!url.startsWith("http")) {
       videoFile = File(url);
     }
     if (this.videoFile != null) {
       this.state = LoadState.success;
       onComplete();
+      return;
     }
 
-    final fileStream = DefaultCacheManager()
-        .getFileStream(this.url, headers: this.requestHeaders as Map<String, String>?);
+    final fileStream = DefaultCacheManager().getFileStream(this.url,
+        headers: this.requestHeaders as Map<String, String>?);
 
     fileStream.listen((fileResponse) {
       if (fileResponse is FileInfo) {
